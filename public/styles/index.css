@@ -1,0 +1,60 @@
+body {
+    height: 100vh;
+    width: 100%;
+    padding: none;
+    margin: 0;
+    background-color: black;
+}
+
+.container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.chat-container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.video-container {
+    width: 49%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.user-video {
+    height: 85%;
+    width: auto;
+}
+
+.button {
+    background-color: indigo;
+    color: white;
+    padding: 14px;
+    box-sizing: border-box;
+    font-size: 18px;
+    font-family: tahoma;
+    border: none;
+    border-radius: 12px;
+    letter-spacing: 2px;
+    cursor: pointer;
+    text-decoration: none;
+    margin-right: 10px;
+    box-sizing: border-box;
+}
+
+.controls {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 12px;
+    box-sizing: border-box;
+}
