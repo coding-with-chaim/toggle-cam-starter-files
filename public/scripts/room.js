@@ -1,7 +1,10 @@
 const peers = {};
+const chatContainer = document.getElementById('left');
+const remoteVideoContainer = document.getElementById('right');
+const toggleButton = document.getElementById('toggle-cam');
 const roomId = window.location.pathname.split('/')[2];
 const userVideo = document.getElementById('user-video');
-const remoteVideo = document.getElementById('remote-video');
+let userStream;
 const socket = io('/');
 
 function callOtherUsers(otherUsers, stream) {
@@ -25,7 +28,16 @@ function createPeer(userIdToCall) {
     peer.onnegotiationneeded = () => userIdToCall ? handleNegotiationNeededEvent(peer, userIdToCall) : null;
     peer.onicecandidate = handleICECandidateEvent;
     peer.ontrack = (e) => {
-        remoteVideo.srcObject = e.streams[0];
+        const container = document.createElement('div');
+        container.classList.add('remote-video-container');
+        const video = document.createElement('video');
+        video.srcObject = e.streams[0];
+        video.autoplay = true;
+        video.playsInline = true;
+        video.classList.add("remote-video");
+        container.appendChild(video);
+        container.id = userIdToCall;
+        remoteVideoContainer.appendChild(container);
     }
     return peer;
 }
@@ -86,23 +98,28 @@ function handleReceiveIce({ candidate, from }) {
 
 function handleDisconnect(userId) {
     delete peers[userId];
-    remoteVideo.remove();
+    document.getElementById(userId).remove();
 };
 
-socket.on('connect', async () => {
-    const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-    userVideo.srcObject = stream;
-    socket.emit('user joined room', roomId);
+async function init() {
+    socket.on('connect', async () => {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        userStream = stream;
+        userVideo.srcObject = stream;
+        socket.emit('user joined room', roomId);
 
-    socket.on('all other users', (otherUsers) => callOtherUsers(otherUsers, stream));
+        socket.on('all other users', (otherUsers) => callOtherUsers(otherUsers, stream));
 
-    socket.on("connection offer", (payload) => handleReceiveOffer(payload, stream));
+        socket.on("connection offer", (payload) => handleReceiveOffer(payload, stream));
 
-    socket.on('connection answer', handleAnswer);
+        socket.on('connection answer', handleAnswer);
 
-    socket.on('ice-candidate', handleReceiveIce);
+        socket.on('ice-candidate', handleReceiveIce);
 
-    socket.on('user disconnected', (userId) => handleDisconnect(userId));
+        socket.on('user disconnected', (userId) => handleDisconnect(userId));
 
-});
+        socket.on('server is full', () => alert("chat is full"));
+    });
+}
 
+init();

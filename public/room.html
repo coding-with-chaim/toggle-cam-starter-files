@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <link rel="stylesheet" href="/styles/index.css">
     <meta charset="UTF-8">
@@ -8,28 +7,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat room</title>
 </head>
-
 <body>
     <div id="chat-container" class="chat-container">
-        <div class="video-container" id="user-video-container">
-            <h3 style="color: white;">You</h3>
+        <div id="left" class="split">
             <video autoplay id="user-video" class="user-video"></video>
             <div class="controls">
-                <button class="button" id="toggle-user-cam">Hide cam</button>
+                <button class="button" id="toggle-cam">Hide cam</button>
             </div>
         </div>
-        <div class="video-container" id="remote-video-container">
-            <h3 style="color: white;">Your friend</h3>
-            <video autoplay id="remote-video" class="user-video"></video>
-            <div class="controls">
-                <button class="button" id="toggle-remote-cam">Hide cam</button>
-            </div>
-        </div>
+        <div id="right" class="split"></div>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"
-        integrity="sha512-WL6WGKMPBiM9PnHRYIn5YEtq0Z8XP4fkVb4qy7PP4vhmYQErJ/dySyXuFIMDf1eEYCXCrQrMJfkNwKc9gsjTjA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js" integrity="sha512-WL6WGKMPBiM9PnHRYIn5YEtq0Z8XP4fkVb4qy7PP4vhmYQErJ/dySyXuFIMDf1eEYCXCrQrMJfkNwKc9gsjTjA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="/scripts/room.js"></script>
 </body>
-
 </html>
